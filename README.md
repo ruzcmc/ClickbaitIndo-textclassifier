@@ -4,6 +4,8 @@ Using Tensorflow Keras Convolutional NN API and pretrained fasttext word embeddi
 The juPYter notebook contains all the code for the classifier. 
 Labeled and unlabeled datasets are available for other researchers / enthusiasts to play with.
 
+Datasets are labeled by 4 researchers and averaged to reach final category.
+
 Academic article will be published accordingly after the project is concluded.
 
 Wish us luck!
