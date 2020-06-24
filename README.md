@@ -1,6 +1,6 @@
 # ClickbaitIndo-textclassifier
 A research project to classify Indonesian online news headline into clickbait or not. 
-Using Tensorflow Keras Convolutional NN API and pretrained fasttext word embedding (credit to https://github.com/Kyubyong/wordvectors), text was preprocessed with PySastrawi, a Bahasa Indonesia preprocessor (https://pypi.org/project/Sastrawi/). 
+Using Tensorflow Keras API and BERT Multilingual.
 The juPYter notebook contains all the code for the classifier. 
 Labeled and unlabeled datasets are available for other researchers / enthusiasts to play with.
 
