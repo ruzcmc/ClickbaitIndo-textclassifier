@@ -9,3 +9,6 @@ Datasets are labeled by 4 researchers and averaged to reach final category.
 Academic article will be published accordingly after the project is concluded.
 
 Wish us luck!
+
+update: A newly available dataset is now used for this project 
+(credit to: William, A., & Sari, Y. (2020). CLICK-ID: A novel dataset for Indonesian clickbait headlines. Data in brief, 32, 106231.)
