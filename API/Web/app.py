@@ -66,7 +66,7 @@ def main():
 	return "Hi!"
 
 @app.route("/<uuid>")
-@limiter.exempt
+@limiter.limit("20 per minute")
 def show(uuid):
 	# get data
 	data = UserRequest.query.filter_by(uuid=uuid).first()
@@ -142,6 +142,24 @@ def predictText():
 
 		# send 200 OK
 		200
+	)
+
+	response.headers["Content-Type"] = "application/json"
+	return response
+
+# handle too much request
+@app.errorhandler(429)
+def handle_ratelimit(e):
+	response = make_response(
+		# data
+		jsonify(
+			{
+				"message": f"Error {e.description}"
+			}
+		),
+
+		# send 429 Too Many Requests
+		429
 	)
 
 	response.headers["Content-Type"] = "application/json"
