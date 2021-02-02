@@ -1,9 +1,20 @@
 # import library
 from flask import Flask, request, jsonify, make_response
+
+# db
 from flask_sqlalchemy import SQLAlchemy
+
+# cors
+from flask_cors import CORS
+
+# limiter
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+
+# env
 from dotenv import load_dotenv
+
+# others
 from uuid import uuid4
 from predict import predict
 import os, datetime
@@ -13,6 +24,11 @@ load_dotenv()
 
 # Flask app
 app = Flask(__name__)
+
+# allow CORS
+CORS(app)
+
+# init limiter
 limiter = Limiter(
 	app,
 	key_func=get_remote_address,

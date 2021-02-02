@@ -2,6 +2,7 @@ Flask
 flask-sqlalchemy
 PyMySQL
 Flask-Limiter
+flask-cors
 python-dotenv
 gunicorn
 tensorflow==2.4.1
