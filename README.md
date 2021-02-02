@@ -12,3 +12,5 @@ Wish us luck!
 
 update: A newly available dataset is now used for this project 
 (credit to: William, A., & Sari, Y. (2020). CLICK-ID: A novel dataset for Indonesian clickbait headlines. Data in brief, 32, 106231.)
+
+update 2/2/21: Wildan Gunawan contributes to deploy the model.
