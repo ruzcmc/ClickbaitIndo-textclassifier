@@ -21,28 +21,27 @@ SET time_zone = "+00:00";
 -- Database: `cbapi`
 --
 
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `user_request`
---
-
 CREATE TABLE `user_request` (
-  `uuid` varchar(255) NOT NULL COMMENT 'UUID untuk "mengamankan" data',
+  `uuid` varchar(255) NOT NULL COMMENT 'UUID to make the ID hard to guess',
   `text` varchar(255) NOT NULL,
   `prediction` int(1) NOT NULL,
   `ip_address` varchar(255) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabel untuk simpan request prediction dari user';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Table to save predicted text and its prediction';
 
---
--- Indexes for dumped tables
---
 
---
--- Indeks untuk tabel `user_request`
---
+CREATE TABLE `prediction_feedback` (
+  `uuid` varchar(255) NOT NULL COMMENT 'UUID to make the ID hard to guess',
+  `is_correct` int(1) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Table to save user feedback either it\'s correct or not';
+
+/* Add primary key for each table */
 ALTER TABLE `user_request`
+  ADD PRIMARY KEY (`uuid`);
+COMMIT;
+
+ALTER TABLE `prediction_feedback`
   ADD PRIMARY KEY (`uuid`);
 COMMIT;
 
