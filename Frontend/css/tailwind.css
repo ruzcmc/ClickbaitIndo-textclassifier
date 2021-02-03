@@ -54,15 +54,15 @@ Improve consistency of default fonts in all browsers. (https://github.com/sindre
 
 body {
   font-family:
-    system-ui,
-    -apple-system, /* Firefox supports this but not yet `system-ui` */
-    'Segoe UI',
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif,
-    'Apple Color Emoji',
-    'Segoe UI Emoji';
+		system-ui,
+		-apple-system, /* Firefox supports this but not yet `system-ui` */
+		'Segoe UI',
+		Roboto,
+		Helvetica,
+		Arial,
+		sans-serif,
+		'Apple Color Emoji',
+		'Segoe UI Emoji';
 }
 
 /*
@@ -113,12 +113,12 @@ kbd,
 samp,
 pre {
   font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    'Liberation Mono',
-    Menlo,
-    monospace; /* 1 */
+		ui-monospace,
+		SFMono-Regular,
+		Consolas,
+		'Liberation Mono',
+		Menlo,
+		monospace; /* 1 */
   font-size: 1em; /* 2 */
 }
 
@@ -517,6 +517,18 @@ video {
   outline-offset: 2px;
 }
 
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
@@ -533,9 +545,19 @@ video {
   background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
 }
 
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+}
+
 .bg-green-600 {
   --tw-bg-opacity: 1;
   background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
+}
+
+.bg-blue-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(37, 99, 235, var(--tw-bg-opacity));
 }
 
 .rounded-lg {
@@ -550,6 +572,14 @@ video {
   display: table;
 }
 
+.hidden {
+  display: none;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
 .flex-col {
   flex-direction: column;
 }
@@ -558,12 +588,12 @@ video {
   justify-content: center;
 }
 
-.justify-between {
-  justify-content: space-between;
-}
-
 .flex-none {
   flex: none;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .font-lato {
@@ -593,8 +623,8 @@ video {
   margin-right: auto;
 }
 
-.mr-4 {
-  margin-right: 1rem;
+.mt-3 {
+  margin-top: 0.75rem;
 }
 
 .max-w-md {
