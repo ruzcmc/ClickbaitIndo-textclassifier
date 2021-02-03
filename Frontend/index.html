@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<title>Classify News Headline a Clickbait or Not</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="css/tailwind.css">
+</head>
+<body>
+
+	<div class="font-lato text-center min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+		<div class="relative py-3 md:max-w-xl sm:mx-auto">
+			<div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+				<div class="max-w-md mx-auto">
+					<div class="text-l md:text-xl font-bold">
+						<h1>Clickbait Classifier</h1>
+					</div>
+
+					<div class="text-gray-700">
+						<p>Classify a news headline is clickbait or not with ease</p>
+					</div>
+
+					<div>
+						<div class="py-5 text-base text-left leading-6 space-y-4 text-gray-700 text-md md:text-lg sm:leading-7">
+							<p>News headline:</p>
+							<textarea id="headline" class="w-full textarea-border resize-none p-2"></textarea>
+						</div>
+
+						<div class="flex justify-between">
+							<p class="text-gray-700 text-left mr-4">Result: <span id="result">No request yet</span></p>
+
+							<button id="submit" class="flex-none bg-green-600 text-white font-bold p-3 rounded-lg disabled:opacity-25" onclick="predict()">Submit</button>
+						</div>
+					</div>
+
+					<div class="text-left text-gray-700 text-sm pt-5">
+						<p>Note: Maximum one request per minute due to server capability</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- axios -->
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="text/javascript">
+		// base url
+		var base_url = "http://159.65.13.199:5000"
+
+		// predict
+		function predict() {
+			// disable submit button
+			document.getElementById('submit').disabled = true;
+
+			// get headline
+			var headline = document.getElementById('headline').value;
+
+			// predicting msg
+			document.getElementById('result').innerHTML = "Predicting ..."
+
+			// send post request
+			axios({
+				method: 'post',
+				url: base_url + "/predict",
+				data: {
+					text: headline
+				}
+			})
+			.then(function (response){
+				var prediction = response.data.prediction;
+
+				if (prediction == 1){
+					document.getElementById('result').innerHTML = "Clickbait";
+				} else {
+					document.getElementById('result').innerHTML = "Non-clickbait";
+				}
+			})
+			.catch(function (error) {
+				try {
+					if (error.response.status == 429){
+			    	document.getElementById('result').innerHTML = "Error! Only 1 request / minute allowed due to server capability.";
+				    } else {
+				    	document.getElementById('result').innerHTML = "An error just occured from the backend. Please try again in one minute. Apologies for the inconvenience.";
+				    }
+				} catch {
+					document.getElementById('result').innerHTML = "Our server didn't respond in time. Please try again in few minutes. Apologies for the inconvenience.";
+				}
+			});
+			
+			// enable submit button in 60 s
+			setTimeout(
+				function (){
+					document.getElementById('submit').disabled = false;
+				},
+
+				60 * 1000
+			);
+		}
+	</script>
+</body>
+</html>
