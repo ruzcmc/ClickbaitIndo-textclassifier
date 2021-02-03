@@ -16,3 +16,5 @@ update: A paper regarding the design and development of the deployed model will 
 update 2/2/21: Wildan Gunawan contributes to deploy the model and developed the API. Kudos to him.
 
 update: The details regarding using this model as a web app is inside the API folder (with its respective readme). You are free to use and modify the model for academic purposes only
+
+update: The app is now accessible through our [GH-Page](https://ruzcmc.github.io/ClickbaitIndo-textclassifier)
