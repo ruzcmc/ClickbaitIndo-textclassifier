@@ -47,6 +47,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://{}:{}@{}/{}'.format(
 db = SQLAlchemy(app)
 
 # class
+# user request
 class UserRequest(db.Model):
 	__tablename__ = "user_request"
 
@@ -58,6 +59,17 @@ class UserRequest(db.Model):
 
 	def __repr__(self):
 		return '<UserRequest %r>' % self.uuid
+
+# user give feedback
+class PredictionFeedback(db.Model):
+	__tablename__ = "prediction_feedback"
+
+	uuid = db.Column(db.String, primary_key=True, nullable=False)
+	is_correct = db.Column(db.Integer, nullable=False)
+	timestamp = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+
+	def __repr__(self):
+		return '<PredictionFeedback %r>' % self.uuid
 
 # router
 @app.route("/")
@@ -105,7 +117,108 @@ def show(uuid):
 	response.headers["Content-Type"] = "application/json"
 	return response
 
+@app.route("/<uuid>/correct")
+@limiter.limit("20 per minute")
+def correct(uuid):
+	user_ip = request.remote_addr
+
+	# get data
+	data = UserRequest.query.filter_by(uuid=uuid, ip_address=user_ip).first()
+
+	# data exists?
+	if data:
+		# save feedback
+		data = PredictionFeedback(
+			uuid = uuid,
+			is_correct = 1
+		)
+
+		# commit
+		db.session.add(data)
+		db.session.commit()
+
+		# return to user
+		response = make_response(
+			# data
+			jsonify(
+				{
+					"message": "Feedback successfully saved"
+				}
+			),
+
+			# send 200 OK
+			200
+		)
+
+	else:
+		# return to user
+		response = make_response(
+			# data
+			jsonify(
+				{
+					"message": "Data not found!",
+				}
+			),
+
+			# send 404 Not Found
+			404
+		)
+
+	response.headers["Content-Type"] = "application/json"
+	return response
+
+@app.route("/<uuid>/incorrect")
+@limiter.limit("20 per minute")
+def incorrect(uuid):
+	user_ip = request.remote_addr
+
+	# get data
+	data = UserRequest.query.filter_by(uuid=uuid, ip_address=user_ip).first()
+
+	# data exists?
+	if data:
+		# save feedback
+		data = PredictionFeedback(
+			uuid = uuid,
+			is_correct = 0
+		)
+
+		# commit
+		db.session.add(data)
+		db.session.commit()
+
+		# return to user
+		response = make_response(
+			# data
+			jsonify(
+				{
+					"message": "Feedback successfully saved"
+				}
+			),
+
+			# send 200 OK
+			200
+		)
+
+	else:
+		# return to user
+		response = make_response(
+			# data
+			jsonify(
+				{
+					"message": "Data not found!",
+				}
+			),
+
+			# send 404 Not Found
+			404
+		)
+
+	response.headers["Content-Type"] = "application/json"
+	return response
+
 @app.route("/predict", methods=["POST"])
+@limiter.limit("2 per minute")
 def predictText():
 	# ambil data
 	request_data = request.get_json()
