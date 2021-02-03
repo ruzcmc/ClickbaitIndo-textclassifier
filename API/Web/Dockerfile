@@ -10,4 +10,4 @@ EXPOSE 5000
 
 ENTRYPOINT [ "gunicorn" ]
 
-CMD [ "-b", "0.0.0.0:5000", "app:app" ]
+CMD [ "--certfile=certificate/server.crt", "--keyfile=certificate/server.key", "-b", "0.0.0.0:5000", "app:app" ]
