@@ -24,16 +24,31 @@
 						<p>Classify a news headline is clickbait or not with ease</p>
 					</div>
 
-					<div>
-						<div class="py-5 text-base text-left leading-6 space-y-4 text-gray-700 text-md md:text-lg sm:leading-7">
+					<div class="py-5">
+						<div class="text-base text-left leading-6 space-y-4 text-gray-700 text-md md:text-lg sm:leading-7">
 							<p>News headline:</p>
 							<textarea id="headline" class="w-full textarea-border resize-none p-2"></textarea>
 						</div>
 
-						<div class="flex justify-between">
-							<p class="text-gray-700 text-left mr-4">Result: <span id="result">No request yet</span></p>
+						<div class="mt-3">
+							<button id="submit" class="flex-none bg-blue-600 text-white font-bold p-3 rounded-lg w-full disabled:opacity-25" onclick="predict()">Submit</button>
+						</div>
+					</div>
 
-							<button id="submit" class="flex-none bg-green-600 text-white font-bold p-3 rounded-lg disabled:opacity-25" onclick="predict()">Submit</button>
+					<div class="text-gray-700 text-left space-y-2">
+						<p>Result: <span id="result">No request yet</span></p>
+						
+						<div id="thankyou" class="hidden">
+							<p>Thanks!</p>
+						</div>
+
+						<div id="user_feedback" class="space-y-2 hidden">
+							<p>Is it correct?</p>
+
+							<div class="flex flex-row space-x-3">
+								<button id="submit" class="flex-grow bg-green-600 text-white font-bold p-3 rounded-lg" onclick="correct()">Yup</button>
+								<button id="submit" class="flex-grow bg-red-600 text-white font-bold p-3 rounded-lg" onclick="incorrect()">Nope</button>
+							</div>
 						</div>
 					</div>
 
@@ -49,7 +64,10 @@
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script type="text/javascript">
 		// base url
-		var base_url = "https://api.pikp.fun:5000"
+		var base_url = "https://api.pkip.fun:5000";
+
+		// uuid
+		var uuid;
 
 		// predict
 		function predict() {
@@ -71,6 +89,7 @@
 				}
 			})
 			.then(function (response){
+				uuid = response.data.id;
 				var prediction = response.data.prediction;
 
 				if (prediction == 1){
@@ -78,6 +97,9 @@
 				} else {
 					document.getElementById('result').innerHTML = "Non-clickbait";
 				}
+
+				// show user feedback
+				document.getElementById('user_feedback').classList.remove("hidden");
 			})
 			.catch(function (error) {
 				try {
@@ -98,6 +120,43 @@
 				},
 
 				60 * 1000
+			);
+		}
+
+		function correct() {
+			// send axios
+			axios.get(base_url + "/" + uuid + "/correct");
+
+			// hide user feedback
+			document.getElementById('user_feedback').classList.add("hidden");
+
+			// thank you
+			thankyou();
+		}
+
+		function incorrect() {
+			// send axios
+			axios.get(base_url + "/" + uuid + "/incorrect")
+				.then(function (response) {
+					// hide user feedback
+					document.getElementById('user_feedback').classList.add("hidden");
+
+					// thank you
+					thankyou();
+				});
+		}
+
+		function thankyou() {
+			// show thank you
+			document.getElementById('thankyou').classList.remove("hidden");
+
+			// hide thank you in 5s
+			setTimeout(
+				function (){
+					document.getElementById('thankyou').classList.add("hidden");
+				},
+
+				5 * 1000
 			);
 		}
 	</script>
