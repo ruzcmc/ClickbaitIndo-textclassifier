@@ -8,6 +8,10 @@ primary-dataset.csv (for additional evaluation) are labeled by 4 researchers and
 
 Academic article is available on arXiv and currently under peer-review process at a journal.
 
+## Usage Guide
+Please check API readme to use this project (courtesy of Wildan Gunawan)
+
+### Updates
 update: A newly available dataset is now used for this project 
 (credit to: William, A., & Sari, Y. (2020). CLICK-ID: A novel dataset for Indonesian clickbait headlines. Data in brief, 32, 106231.)
 
