@@ -6,7 +6,7 @@ flask-cors
 python-dotenv
 gunicorn
 cryptography
-tensorflow==2.9.3
+tensorflow==2.11.1
 keras==2.4.0
 transformers==4.2.2
 PySastrawi==1.2.0
